@@ -15,7 +15,5 @@ int main(){
 	cout << secondNumber + firstNumber << "\n";
 
 
-
-
 	return 0;
 }

@@ -15,7 +15,9 @@ int main(){
 	cin >> basic_String;
 	cout << "String Size: " << sizeof(basic_String) << "\n";
 
-
+	for(int runner = 0; runner < 10; runner++){
+		cout << "Ploom";
+	}
 
 	return 0;
 }
