@@ -4,8 +4,12 @@
 
 using namespace std;
 
-Item::Item(void):Position(0)
-{
 
+Item::Item(void)
+{
+	Position = 0;
 }
 
+std::string Item::ShootOut(){
+	return "Hocus Pocus!";
+}
