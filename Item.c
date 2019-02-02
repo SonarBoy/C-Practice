@@ -13,3 +13,11 @@ Item::Item(void)
 std::string Item::ShootOut(){
 	return "Hocus Pocus!";
 }
+
+void Item::setBlast(int x){
+	Position = x;
+}
+
+int Item::getBlast(){
+	return Position;
+}

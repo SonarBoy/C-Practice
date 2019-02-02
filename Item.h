@@ -11,6 +11,10 @@ class Item{
 		Item();
 		void setPosition(int x){Position = x;};
 		int getPosition(){return Position;};
+
+		void setBlast(int x);
+		int getBlast();
+
 		std::string ShootOut();
 			
 
