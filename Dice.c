@@ -18,6 +18,17 @@ std::vector<int> Dice::Rolls(){
 	
 	std::vector<int> x;
 
+	for(int i = 0; i <= numberOfDice; i++){
+		x.push_back(rand() % numberOfSides + 1);
+	}
+
+		
+	for(int i = 0; i <= x.size() - 1; i++){
+		cout << "Roll Number: " << i << endl;
+		cout << "Roll Value: " << x.at(i) << endl; 
+	}
+
+
 	return x;
 	
 }
