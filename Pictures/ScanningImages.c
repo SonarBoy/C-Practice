@@ -27,7 +27,9 @@ Mat& ScanImageAndReduceIterator(Mat& I, const uchar* table);
 Mat& ScanImageAndReduceRandomAccess(Mat& I, const uchar * table);
 
 int main( int argc, char* argv[])
-{
+{   
+
+    //Print Out the help and do a basic validation for parameters.
     help();
     if (argc < 3)
     {
@@ -35,6 +37,8 @@ int main( int argc, char* argv[])
         return -1;
     }
 
+
+    //Read the images being put in
     Mat I, J;
     if( argc == 4 && !strcmp(argv[3],"G") )
         I = imread(argv[1], IMREAD_GRAYSCALE);
@@ -47,7 +51,7 @@ int main( int argc, char* argv[])
         return -1;
     }
 
-    /*
+    
     //! [dividewith]
     int divideWith = 0; // convert our input string to number - C++ style
     std::stringstream s;
@@ -63,6 +67,11 @@ int main( int argc, char* argv[])
     for (int i = 0; i < 256; ++i)
        table[i] = (uchar)(divideWith * (i/divideWith));
     //! [dividewith]
+
+
+
+
+
 
     const int times = 100;
     double t;
@@ -83,6 +92,9 @@ int main( int argc, char* argv[])
 
     t = (double)getTickCount();
 
+
+
+
     for (int i = 0; i < times; ++i)
     {
         cv::Mat clone_i = I.clone();
@@ -97,6 +109,10 @@ int main( int argc, char* argv[])
 
     t = (double)getTickCount();
 
+
+
+
+
     for (int i = 0; i < times; ++i)
     {
         cv::Mat clone_i = I.clone();
@@ -108,6 +124,11 @@ int main( int argc, char* argv[])
 
     std::cout << "Time of reducing with the on-the-fly address generation - at function (averaged for "
         << times << " runs): " << t << " milliseconds."<< std::endl;
+
+
+
+
+
 
     //! [table-init]
     Mat lookUpTable(1, 256, CV_8U);
@@ -128,7 +149,7 @@ int main( int argc, char* argv[])
 
     std::cout << "Time of reducing with the LUT function (averaged for "
         << times << " runs): " << t << " milliseconds."<< std::endl;
-    return 0; */
+    return 0; 
 }
 
 
