@@ -63,6 +63,9 @@ int main( int argc, char* argv[])
         return -1;
     }
 
+    //Creation of the lookup table from text to an integer format.
+
+
     uchar table[256];
     for (int i = 0; i < 256; ++i)
        table[i] = (uchar)(divideWith * (i/divideWith));
@@ -155,10 +158,20 @@ int main( int argc, char* argv[])
 
 //! [scan-c]
 Mat& ScanImageAndReduceC(Mat& I, const uchar* const table)
-{
+{   
+
+    //Depth = Returns the depth of a sparse matrix element. (Numerical Values used to represent colors)
+    /*
+    The method returns the identifier of the matrix element depth (the type of each individual channel). 
+    For example, for a 16-bit signed 3-channel array, the method returns CV_16S
+    CV_8U - 8-bit unsigned integers ( 0..255 )
+    */
     // accept only char type matrices
     CV_Assert(I.depth() == CV_8U);
 
+
+    //Returns the number of matrix channels. (Color Chanels see 
+    //https://docs.opencv.org/3.4.0/d6/d6d/tutorial_mat_the_basic_image_container.html) STORAGE METHODS!
     int channels = I.channels();
 
     int nRows = I.rows;
@@ -172,6 +185,29 @@ Mat& ScanImageAndReduceC(Mat& I, const uchar* const table)
 
     int i,j;
     uchar* p;
+
+    //Cycles through all the rows and colums of the input MAT
+    //While using the ptr or pointer function 
+    /*
+    Low-level element-access functions, special variants for 1D, 2D, 3D cases, and the generic one for n-D case.
+
+    C++: uchar* SparseMat::ptr(int i0, bool createMissing, size_t* hashval=0)¶
+    C++: uchar* SparseMat::ptr(int i0, int i1, bool createMissing, size_t* hashval=0)
+    C++: uchar* SparseMat::ptr(int i0, int i1, int i2, bool createMissing, size_t* hashval=0)
+    C++: uchar* SparseMat::ptr(const int* idx, bool createMissing, size_t* hashval=0)
+
+    Parameters: 
+    i0 – The first dimension index.
+    i1 – The second dimension index.
+    i2 – The third dimension index.
+    idx – Array of element indices for multidimensional matices.
+    
+    createMissing – Create new element with 0 value if it does not exist in SparseMat.
+    Return pointer to the matrix element. If the element is there (it is non-zero), the pointer to it is returned.
+    If it is not there and createMissing=false, NULL pointer is returned. If it is not there and createMissing=true, 
+    the new elementis created and initialized with 0. Pointer to it is returned. If the optional hashval pointer is not NULL, 
+    the element hash value is not computed but hashval is taken instead.
+    */
     for( i = 0; i < nRows; ++i)
     {
         p = I.ptr<uchar>(i);
@@ -190,18 +226,22 @@ Mat& ScanImageAndReduceIterator(Mat& I, const uchar* const table)
     // accept only char type matrices
     CV_Assert(I.depth() == CV_8U);
 
+
+    //Returns the number of matrix channels. (Color Chanels see 
+    //https://docs.opencv.org/3.4.0/d6/d6d/tutorial_mat_the_basic_image_container.html) STORAGE METHODS!
     const int channels = I.channels();
     switch(channels)
     {
     case 1:
         {
+            //Single Iterator for gray scale 
             MatIterator_<uchar> it, end;
             for( it = I.begin<uchar>(), end = I.end<uchar>(); it != end; ++it)
                 *it = table[*it];
             break;
         }
     case 3:
-        {
+        {   //Multi Iterator for multiple colors
             MatIterator_<Vec3b> it, end;
             for( it = I.begin<Vec3b>(), end = I.end<Vec3b>(); it != end; ++it)
             {
@@ -210,6 +250,15 @@ Mat& ScanImageAndReduceIterator(Mat& I, const uchar* const table)
                 (*it)[2] = table[(*it)[2]];
             }
         }
+
+        //begin
+        /*Returns the matrix iterator and sets it to the first matrix element.
+        C++: template<typename _Tp> MatIterator_<_Tp> Mat::begin()*/
+
+        //end
+        /*Returns the matrix iterator and sets it to the after-last matrix element.
+        C++: template<typename _Tp> MatIterator_<_Tp> Mat::end()*/
+
     }
 
     return I;
