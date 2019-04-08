@@ -39,13 +39,13 @@ int main( int argc, char* argv[])
 
 
     //Read the images being put in
-    Mat I, J;
+    Mat inputImage, outputImage;
     if( argc == 4 && !strcmp(argv[3],"G") )
-        I = imread(argv[1], IMREAD_GRAYSCALE);
+        inputImage = imread(argv[1], IMREAD_GRAYSCALE);
     else
-        I = imread(argv[1], IMREAD_COLOR);
+        inputImage = imread(argv[1], IMREAD_COLOR);
 
-    if (I.empty())
+    if (inputImage.empty())
     {
         std::cout << "The image" << argv[1] << " could not be loaded." << std::endl;
         return -1;
@@ -54,9 +54,13 @@ int main( int argc, char* argv[])
     
     //! [dividewith]
     int divideWith = 0; // convert our input string to number - C++ style
+    
     std::stringstream s;
     s << argv[2];
     s >> divideWith;
+
+    
+
     if (!s || !divideWith)
     {
         std::cout << "Invalid number entered for dividing. " << std::endl;
@@ -76,57 +80,57 @@ int main( int argc, char* argv[])
 
 
 
-    const int times = 100;
-    double t;
+    const int TIMES = 100;
+    double  ticks ;
 
-    t = (double)getTickCount();
+    ticks = (double)getTickCount();
 
-    for (int i = 0; i < times; ++i)
+    for (int i = 0; i < TIMES; ++i)
     {
-        cv::Mat clone_i = I.clone();
-        J = ScanImageAndReduceC(clone_i, table);
+        cv::Mat clone_i = inputImage.clone();
+        outputImage = ScanImageAndReduceC(clone_i, table);
     }
 
-    t = 1000*((double)getTickCount() - t)/getTickFrequency();
-    t /= times;
+    ticks = 1000*((double)getTickCount() - ticks )/getTickFrequency();
+    ticks /= TIMES;
 
     std::cout << "Time of reducing with the C operator [] (averaged for "
-         << times << " runs): " << t << " milliseconds."<< std::endl;
+         << TIMES << " runs): " << ticks << " milliseconds."<< std::endl;
 
-    t = (double)getTickCount();
-
-
+    ticks = (double)getTickCount();
 
 
-    for (int i = 0; i < times; ++i)
+
+
+    for (int i = 0; i < TIMES; ++i)
     {
-        cv::Mat clone_i = I.clone();
-        J = ScanImageAndReduceIterator(clone_i, table);
+        cv::Mat clone_i = inputImage.clone();
+        outputImage = ScanImageAndReduceIterator(clone_i, table);
     }
 
-    t = 1000*((double)getTickCount() - t)/getTickFrequency();
-    t /= times;
+    ticks = 1000*((double)getTickCount() - ticks )/getTickFrequency();
+    ticks /= TIMES;
 
     std::cout << "Time of reducing with the iterator (averaged for "
-        << times << " runs): " << t << " milliseconds."<< std::endl;
+        << TIMES << " runs): " << ticks << " milliseconds."<< std::endl;
 
-    t = (double)getTickCount();
-
-
+    ticks = (double)getTickCount();
 
 
 
-    for (int i = 0; i < times; ++i)
+
+
+    for (int i = 0; i < TIMES; ++i)
     {
-        cv::Mat clone_i = I.clone();
+        cv::Mat clone_i = inputImage.clone();
         ScanImageAndReduceRandomAccess(clone_i, table);
     }
 
-    t = 1000*((double)getTickCount() - t)/getTickFrequency();
-    t /= times;
+    ticks = 1000*((double)getTickCount() - ticks)/getTickFrequency();
+    ticks /= TIMES;
 
     std::cout << "Time of reducing with the on-the-fly address generation - at function (averaged for "
-        << times << " runs): " << t << " milliseconds."<< std::endl;
+        << TIMES << " runs): " << ticks << " milliseconds."<< std::endl;
 
 
 
@@ -136,28 +140,28 @@ int main( int argc, char* argv[])
     //! [table-init]
     Mat lookUpTable(1, 256, CV_8U);
     uchar* p = lookUpTable.ptr();
-    for( int i = 0; i < 256; ++i)
-        p[i] = table[i];
+    for( int runner = 0; runner < 256; ++runner)
+        p[runner] = table[runner];
     //! [table-init]
 
-    t = (double)getTickCount();
+    ticks = (double)getTickCount();
 
-    for (int i = 0; i < times; ++i)
+    for (int runner = 0; runner < TIMES; ++runner)
         //! [table-use]
-        LUT(I, lookUpTable, J);
+        LUT(inputImage, lookUpTable, outputImage);
         //! [table-use]
 
-    t = 1000*((double)getTickCount() - t)/getTickFrequency();
-    t /= times;
+    ticks = 1000*((double)getTickCount() - ticks )/getTickFrequency();
+    ticks /= TIMES;
 
     std::cout << "Time of reducing with the LUT function (averaged for "
-        << times << " runs): " << t << " milliseconds."<< std::endl;
+        << TIMES << " runs): " << ticks << " milliseconds."<< std::endl;
     return 0; 
 }
 
 
 //! [scan-c]
-Mat& ScanImageAndReduceC(Mat& I, const uchar* const table)
+Mat& ScanImageAndReduceC(Mat& inputImageRC , const uchar* const table)
 {   
 
     //Depth = Returns the depth of a sparse matrix element. (Numerical Values used to represent colors)
@@ -167,23 +171,23 @@ Mat& ScanImageAndReduceC(Mat& I, const uchar* const table)
     CV_8U - 8-bit unsigned integers ( 0..255 )
     */
     // accept only char type matrices
-    CV_Assert(I.depth() == CV_8U);
+    CV_Assert(inputImageRC.depth() == CV_8U);
 
 
     //Returns the number of matrix channels. (Color Chanels see 
     //https://docs.opencv.org/3.4.0/d6/d6d/tutorial_mat_the_basic_image_container.html) STORAGE METHODS!
-    int channels = I.channels();
+    int channels = inputImageRC.channels();
 
-    int nRows = I.rows;
-    int nCols = I.cols * channels;
+    int nRows = inputImageRC.rows;
+    int nCols = inputImageRC.cols * channels;
 
-    if (I.isContinuous())
+    if (inputImageRC.isContinuous())
     {
         nCols *= nRows;
         nRows = 1;
     }
 
-    int i,j;
+    int rowRunner,columRunner;
     uchar* p;
 
     //Cycles through all the rows and colums of the input MAT
@@ -208,46 +212,46 @@ Mat& ScanImageAndReduceC(Mat& I, const uchar* const table)
     the new elementis created and initialized with 0. Pointer to it is returned. If the optional hashval pointer is not NULL, 
     the element hash value is not computed but hashval is taken instead.
     */
-    for( i = 0; i < nRows; ++i)
+    for( rowRunner = 0; rowRunner < nRows; ++rowRunner)
     {
-        p = I.ptr<uchar>(i);
-        for ( j = 0; j < nCols; ++j)
+        p = inputImageRC.ptr<uchar>(rowRunner);
+        for ( columRunner = 0; columRunner < nCols; ++columRunner)
         {
-            p[j] = table[p[j]];
+            p[columRunner] = table[p[columRunner]];
         }
     }
-    return I;
+    return inputImageRC;
 }
 //! [scan-c]
 
 //! [scan-iterator]
-Mat& ScanImageAndReduceIterator(Mat& I, const uchar* const table)
+Mat& ScanImageAndReduceIterator(Mat& inputImageRI, const uchar* const table)
 {
     // accept only char type matrices
-    CV_Assert(I.depth() == CV_8U);
+    CV_Assert(inputImageRI.depth() == CV_8U);
 
 
     //Returns the number of matrix channels. (Color Chanels see 
     //https://docs.opencv.org/3.4.0/d6/d6d/tutorial_mat_the_basic_image_container.html) STORAGE METHODS!
-    const int channels = I.channels();
+    const int channels = inputImageRI.channels();
     switch(channels)
     {
     case 1:
         {
             //Single Iterator for gray scale 
-            MatIterator_<uchar> it, end;
-            for( it = I.begin<uchar>(), end = I.end<uchar>(); it != end; ++it)
-                *it = table[*it];
+            MatIterator_<uchar> it_G, end_G;
+            for( it_G = inputImageRI.begin<uchar>(), end_G = inputImageRI.end<uchar>(); it_G != end_G; ++it_G)
+                *it_G = table[*it_G];
             break;
         }
     case 3:
         {   //Multi Iterator for multiple colors
-            MatIterator_<Vec3b> it, end;
-            for( it = I.begin<Vec3b>(), end = I.end<Vec3b>(); it != end; ++it)
+            MatIterator_<Vec3b> it_C, end_C;
+            for( it_C = inputImageRI.begin<Vec3b>(), end_C = inputImageRI.end<Vec3b>(); it_C != end_C; ++it_C)
             {
-                (*it)[0] = table[(*it)[0]];
-                (*it)[1] = table[(*it)[1]];
-                (*it)[2] = table[(*it)[2]];
+                (*it_C)[0] = table[(*it_C)[0]];
+                (*it_C)[1] = table[(*it_C)[1]];
+                (*it_C)[2] = table[(*it_C)[2]];
             }
         }
 
@@ -261,42 +265,42 @@ Mat& ScanImageAndReduceIterator(Mat& I, const uchar* const table)
 
     }
 
-    return I;
+    return inputImageRI;
 }
 //! [scan-iterator]
 
 //! [scan-random]
-Mat& ScanImageAndReduceRandomAccess(Mat& I, const uchar* const table)
+Mat& ScanImageAndReduceRandomAccess(Mat& inputImageRA, const uchar* const table)
 {
     // accept only char type matrices
-    CV_Assert(I.depth() == CV_8U);
+    CV_Assert(inputImageRA.depth() == CV_8U);
 
-    const int channels = I.channels();
+    const int channels = inputImageRA.channels();
     switch(channels)
     {
     case 1:
         {
-            for( int i = 0; i < I.rows; ++i)
-                for( int j = 0; j < I.cols; ++j )
-                    I.at<uchar>(i,j) = table[I.at<uchar>(i,j)];
+            for( int rowsRunner = 0; rowsRunner < inputImageRA.rows; ++rowsRunner)
+                for( int columnRunner = 0; columnRunner < inputImageRA.cols; ++columnRunner )
+                    inputImageRA.at<uchar>(rowsRunner,columnRunner) = table[inputImageRA.at<uchar>(rowsRunner,columnRunner)];
             break;
         }
     case 3:
         {
-         Mat_<Vec3b> _I = I;
+         Mat_<Vec3b> _I = inputImageRA;
 
-         for( int i = 0; i < I.rows; ++i)
-            for( int j = 0; j < I.cols; ++j )
+         for( int rowsRunner = 0; rowsRunner < inputImageRA.rows; ++rowsRunner)
+            for( int columnRunner = 0; columnRunner < inputImageRA.cols; ++columnRunner )
                {
-                   _I(i,j)[0] = table[_I(i,j)[0]];
-                   _I(i,j)[1] = table[_I(i,j)[1]];
-                   _I(i,j)[2] = table[_I(i,j)[2]];
+                   _I(rowsRunner,columnRunner)[0] = table[_I(rowsRunner,columnRunner)[0]];
+                   _I(rowsRunner,columnRunner)[1] = table[_I(rowsRunner,columnRunner)[1]];
+                   _I(rowsRunner,columnRunner)[2] = table[_I(rowsRunner,columnRunner)[2]];
             }
-         I = _I;
+         inputImageRA = _I;
          break;
         }
     }
 
-    return I;
+    return inputImageRA;
 }
 //! [scan-random]
