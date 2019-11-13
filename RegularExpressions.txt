@@ -1,0 +1,78 @@
+Regular Expressions Notes-------------------------------------------
+
+* = wild card = '.*'
+    must be where charater is ouccoring 0 or more times
+
+. = literal charaters
+    matches a string literal charater
+
+Repetition Operators 
+
+? = preceeding item is optional and matched at most once.
+* = preceeeding item will be matched 0 or more times.
++ = preceeding item will be matched 1 or more times.
+
+Anchors:
+    Anchors are used to match positions , not charaters
+    By matching the start of a line or the end of a line,
+    these meta charaters efficitively anchor the regex matches 
+    at specific positions.
+
+^ = start of line anchor
+$ = represents end of line anchor
+
+^\d+ 
+\d = digit 
++ = repeats 1 or more times.
+
+^\d+
+    13 cats excaped from the 5 cages at the vet clinic.
+    -returns 13.
+
+^b[aiu]t$
+    This line does not match but the next line does
+    -return but
+
+Word Boundaries
+    Are used to match position before and after word charaters
+    which creates a boundary. A word boundary is definied as a locations
+    where there is a word charater on one side and not the other. These 
+    word boundaries allow you to identify where word begins and ends.
+
+    'scatty' 'scatter' 'cat' -match '\bcat\b'
+
+
+{n} = the preceeding item is matched exactly n times.
+{n,} = the preceeding is matched exactly n times.
+{,m} = the precceding is matched n or more times.
+{n,m} matche at least n times but no more than m times.
+
+[] = charater class = what you put into it is what is matched.
+    a set of charaters ised to express all possibilities at a specific point in a match.
+
+[a-Z] = charater class range 
+[0-9] = charater calls digit range
+[^abcd] = not charater class
+[^a-d] = not charater class range.
+
+-i case note sensitive in grep
+
+Alterations 
+    are used to match a single regular expression out of several possible expression.
+
+grep -eO 'Warden|Community|Lawrence' locations.csv
+
+Shorthand MetaCharater
+
+\w [a-z A-Z 0-9_] word charaters
+\s whitespace charaters
+\d [0-9] digit charaters
+\w [^a-z A-Z 0-9 _] non-word
+\S non-whitespace charaters
+\D [^0-9] non-digit charaters
+. any charater
+\n new line charaters
+\t tab charaters 
+\r carrige returns charater.
+
+-------------------------------------------------------------------

@@ -1,0 +1,363 @@
+C++ Notes----------------------------------------------------------------------------------
+
+To Compile
+
+g++ foo.c           g++ -o output foo.c
+ a.out                    output file name
+
+* all console applications must have a main function.
+
+Simplest applications
+
+int main() {
+    return 0;
+}
+
+STL = Standard Template Library
+
+Stream I/O = include <iostream>
+-Keyboard
+-Files
+
+std::cout                 >> sends something to a stream
+    console output        cin >> runner Number;
+
+std::endl                 << reads something from a stream
+    end of line           cout << "Hello World"
+
+Variables
+    - using namespace std = allows for you not to have to type the namespace name before the 
+    command.
+
+
+Operator's                  Simple users input
+>> = greater than           int x;
+<< = less than              cout << "Enter a Number";
+== equals to                cin >> x
+!= not equals               cout << "your # is " << x
+
+
+Functions and Headers
+- must be declared before caleed!
+- have a return type
+- takes parameters
+
+int add (int x, int y){
+    return x+y;
+}
+
+int a = add(3 + 4);
+
+Type Safety
+-when you call a finction the arguments you supply night be converted to 
+the parameters the function takes
+-possibily risky and the compiler will warn you.
+
+OverLoading
+
+int add(int x , int y){                int add(int x, int y, int z){
+    return x + y;                        return x + y + z;
+}                                      }                  
+
+Overloads 
+
+-Two functions can have the same name as long as the compiler can tell them appart.
+-Taking a different number of arguments is a great way to distinguish overloads.
+-return type can never be used to distinguish overloads
+-Taking the same number of arguments, but of different types is risky
+
+Multiple files 
+-Tell the compiler to compile each of them and the linker to link them.
+-Mechanism for this vary from tool to tool.
+
+g++ for multiple files
+g++ fence.cpp Small.cpp
+
+Header Files
+
+For Larger declorations
+    put them in a seprate file that is included into each file as you compile.
+
+#include - a step that runs before the compiler.
+
+
+Strings and collections
+
+C++ = object oriented language.
+
+- A class defines the idea of an object
+- what data can it hold
+- what functions it can be asked to perform.
+
+Strings
+- Standard holds the string class.
+- # include <string>
+- can compare and mainpulate Strings
+- also search for substrings
+- for unicode, use wstring.
+
+Operator's
+
+combine = (+,+=)
+test equality = (==,<>,!=)
+
+getLine(cin,word1)
+ takes everything until carrige return.
+
+Double quotes in Strings
+cout << "The Charater is at \"" << variable.find(x) << "\"" << "position";
+
+The Charater is at "16" position.
+
+Member function
+Length = greetings.length();
+finds = greetings.find();
+substr = greetings.substr(space + 1);
+
+Vector
+- Collection: holds a number of values, all of the same type
+- Size does not need to be know in advanced.
+
+-push-back()
+-insert() moves items around, use only if you need it. The type of item added must
+match type and when declaring the vector.
+-sort(begin(vi),end(vi)) = sorts everything.
+
+Simple obejct example.
+
+Object class to be used in main program.
+
+
+**************** Item.c ****************
+#include <string>
+#include <vector>
+#include "Item.h" included interface
+
+using namespace std;
+
+Item::Item(void){
+    Position = 0;
+
+    std::string Item::ShootOut(){
+        return "Hocus Pocus!";
+    }
+}
+**************** Item.c ****************
+
+
+**************** Item.h ****************
+
+#inculde <string>
+#inculde <vector>
+
+class Item{
+    private:
+        int Position;
+
+    public:
+        Item();
+        void setPosition(int x) {Position = x;};
+        int getPosition() {return Position;};
+        std::string ShootOut();
+
+}; NOTE: Class declarations must end with a semicolon
+
+**************** Item.h ****************
+
+**************** Main.c ****************
+
+#include <iostream>
+#include <string>
+#include <vector>
+#inculde "Item.h"
+
+using namspace std;
+
+int main{
+
+    Item x = Item();
+    x.setPosition(10);
+    x.ShootOut();
+
+    cout << "Potency" << x.getPosition() << endl;
+    cout << "The Rate is : " << x.ShootOut();
+
+    return 0;
+}
+
+**************** Main.c ****************
+
+
+
+Using make File
+
+In the folder where you are compiling all your C++ files you can 
+use a make file to build a lot of files together.
+
+Basic example
+    all:
+        g++ Item.c vectorExample.c -o Vector
+
+make = defaults to using a file called make file.
+make -f allows you to specify a file.
+
+
+
+Standard Library:
+-So much more than just <iostream>,<string> and <vector>
+-collections
+-Algorithms (find,sort...)
+-Complex numbers,random numbers, regular expressions.
+
+Passing parameters to Functions
+-By default what goes into the function is a copy.
+    
+    void foo(Transaction t)
+
+    Transaction deposit(50,"Deposit");
+    foo(deposit);
+
+-Changes inside foo() will be to the local variable, not to deposit.
+-you can arrange for the function to take the parameter by reference
+
+    void foo(Transaction& t);
+        -changes to deposit wil now truly change.
+
+add the "&" to pass the variable by the actual reference.
+
+call Destructor ~
+
+Exceptions:
+    The free store   (std::shared_ptr,std::unique_ptr)
+    Lambdas.
+
+Type Definition = new name for existing type.
+
+-Sets up synonyms that appear to be new type but are just new names for
+existing ones.
+
+    typedef int BOOL
+        * example of how an int is used as a bool.
+
+Examples
+
+typedef std::vector<int> VectorOfInt;
+VectorOfInt numbers;
+
+typedef std::vector<double> VectorOfDouble;
+VectorOfDouble moreNumbers;
+
+
+Pointers
+
+-variables are locations in memory which can be accessed by an indentifier.
+-no need to care about the physical address.
+- a pointer is a date type that "points" to aonter value stored in memory.
+
+
+Name    Value   Address
+p       0003    0000
+                0001
+                0002
+x       25      0003
+                0004
+
+
+int* pi;
+
+    & = Address of Operator
+    * = Contents of Operator
+
+Example Address Of Operator
+
+    int x = 25;
+    int* p = &x; = read as int pointer is set to the address of x.
+
+cout << p << endl;
+    0003
+
+
+
+* How to declare a pointer
+    int* pi; // pi is a pointer to int
+
+* How to show the address of 
+    int j = 4;
+    pi = &j;
+
+* How do you return the contents of 
+    *pi = 3;
+
+
+
+Legacy Constructs
+
+
+-Code never really goes away.
+    printed in books
+    released in open source libraries
+
+What make it Legacy?
+
+* Pre C++ 11
+    No Lambdas
+    No ranged for
+
+* Written by someone who didnt like templates
+    No std::vector
+    No static_cast
+
+* Habbits
+    no const.
+    lots of manual memory management 
+    pointers everywhere.
+    no std::string
+    no std::cout
+
+Casting
+    good way
+    
+    int i = static cast <int>(4.9);
+
+Macros
+
+    #define Pi 3.14
+
+    const double Pi = 3.14
+
+C Style Arrays
+
+    int number [4];
+
+    double moreNumbers[] = {1.1, 1.2, 1.3, 1.4};
+
+- When you see [] you probally think vector.
+- C Style arrays are resonable similar.
+- cannot grow themselves
+- can also be accused with pointer mainipulation.
+- code that uses the array name alone is pointer to the start of the array.
+
+
+C Style Strings.
+
+    std:string = "char*"
+
+To demote the end of a string a special "signal" element at the end is used.
+    '\0'.
+    requires extra space at the end to hold element.
+
+
+Functions = nulll terminated array of charaters as input 
+    -strlen
+    -strcyp
+    -strcat
+
+
+Ex Contents Of Operator
+The contents of operator allows us to get the value stored at the address held by 
+the pointer.
+
+    int x = 25              cout << *p << endl; prints out 25
+
+    int* p = &x;
+
