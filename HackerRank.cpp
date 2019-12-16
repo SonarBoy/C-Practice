@@ -199,6 +199,23 @@ int birthdayCakeCandles(vector<int> ar) {
 //SAME BLATANT DISREGARD FOR THE ACTUAL END GOAL WHICH WOULD TAKE TWO LOOPS. WHEN I WAS TRYING TO SOLVE IT WITH NEEDLESS EFFIENCY
 //NOT REALISING THE WHOLE IN MY LOGIC WHICH WAS A TEST FOR EACH ELEMENT IN THE ARRAY THROUGH THE LOOP AND NOT STICKING TO THE LARGEST ONE FOUND.
 
+string kangaroo(int x1, int v1, int x2, int v2) {
+
+    for(int runner = 0; runner < 10000;runner++){
+        if(x1 == x2){
+            return "YES";
+        }
+
+        x1 += v1;
+        x2 += v2;
+    }
+    
+    return "NO";
+}
+
+//FAILED ATTEMPTS:
+//OVER THINKING THE PROBLEM AGAIN BECAUSE THERE WAS A POSSIBLE RELATATION TO THE INTERSECTIONS OF A LINE WHICH IS A SIMILAR TYPE OF QUESTION.
+
 
 
 int main()
