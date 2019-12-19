@@ -217,6 +217,33 @@ string kangaroo(int x1, int v1, int x2, int v2) {
 //OVER THINKING THE PROBLEM AGAIN BECAUSE THERE WAS A POSSIBLE RELATATION TO THE INTERSECTIONS OF A LINE WHICH IS A SIMILAR TYPE OF QUESTION.
 
 
+// Complete the dayOfProgrammer function below.
+string dayOfProgrammer(int year) {
+
+    
+    int months = 215;
+    int feb = 28;
+
+    int day = 0;
+
+    if(year % 4 == 0){
+        feb = 29;
+    }
+
+    day = 256 - (months + feb);
+
+    string date = (day + ".09." + year);
+
+    
+26.09.1918
+    
+    return date;
+
+
+}
+
+
+
 
 int main()
 {
