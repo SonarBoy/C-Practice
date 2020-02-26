@@ -233,9 +233,6 @@ string dayOfProgrammer(int year) {
     day = 256 - (months + feb);
 
     string date = (day + ".09." + year);
-
-    
-26.09.1918
     
     return date;
 

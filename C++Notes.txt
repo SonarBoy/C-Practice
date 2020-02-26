@@ -252,7 +252,7 @@ Pointers
 
 -variables are locations in memory which can be accessed by an indentifier.
 -no need to care about the physical address.
-- a pointer is a date type that "points" to aonter value stored in memory.
+-a pointer is a date type that "points" to another value stored in memory.
 
 
 Name    Value   Address
@@ -266,7 +266,7 @@ x       25      0003
 int* pi;
 
     & = Address of Operator
-    * = Contents of Operator
+    * = Contents of Operator also used to declare the variable as a pointer.
 
 Example Address Of Operator
 
