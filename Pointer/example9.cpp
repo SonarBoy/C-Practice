@@ -11,9 +11,6 @@ int add(int x, int y);
 
 */
 
-
-
-
 int main()
 {
     int (*ptr)(int x,int y);
@@ -34,7 +31,6 @@ int main()
 int add(int x, int y){
     return x + y;
 }
-
 
 /*
 Pray for :
