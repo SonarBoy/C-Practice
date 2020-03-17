@@ -100,7 +100,7 @@ void appendWithMarker(struct Node** head_ref, int new_data,int number){
 
 }
 
-void insertAtMarker(struct Node** head_ref, int new_data,int number){
+void changeAtMarker(struct Node** head_ref, int new_data,int number){
 
     int runner = 0;
 
@@ -111,25 +111,110 @@ void insertAtMarker(struct Node** head_ref, int new_data,int number){
 
     struct Node *last = *head_ref;
 
+    new_node -> data = new_data;
+
     new_node -> next = NULL;
 
     if(*head_ref == NULL){
         *head_ref = new_node;
-        return;
+        return ;
     }
 
-    while(last -> next != NULL && runner != number){
+    while(last -> next != NULL){
         last = last -> next;
         runner++;
+
+        if(runner == number){
+            last -> data = 100;
+            return ;
+        }
+        
     }
-
-
-    last -> data = new_data;
-    last -> next = new_node;
     
-    return;
+    return ;
 
 }
+
+
+int getAtMarker(struct Node** head_ref, int new_data,int number){
+
+    int runner = 0;
+
+    struct Node *new_node = (struct Node*) malloc(sizeof(struct Node));
+
+    struct Node *tester_node = (struct Node*) malloc(sizeof(struct Node));
+
+
+    struct Node *last = *head_ref;
+
+    new_node -> data = new_data;
+
+    new_node -> next = NULL;
+
+    if(*head_ref == NULL){
+        *head_ref = new_node;
+        return 0;
+    }
+
+    while(last -> next != NULL){
+        last = last -> next;
+        runner++;
+
+        if(runner == number){
+            tester_node -> data = 100;
+            //tester_node -> next = last -> next -> next;
+            return last -> data;
+        }
+        
+    }
+    
+    return 0;
+
+}
+
+
+//Insert at a particular node.
+int insertAtMarker(struct Node** head_ref, int new_data,int number){
+
+    int runner = 0;
+
+    struct Node *new_node = (struct Node*) malloc(sizeof(struct Node));
+
+    struct Node *tester_node = (struct Node*) malloc(sizeof(struct Node));
+
+
+    struct Node *last = *head_ref;
+
+    new_node -> data = new_data;
+
+    new_node -> next = NULL;
+
+    if(*head_ref == NULL){
+        *head_ref = new_node;
+        return 0;
+    }
+
+    while(last -> next != NULL){
+       
+        if(runner <= number){
+            
+            tester_node -> next = last -> next;
+            tester_node -> data = 100;
+            last -> next = tester_node;
+            return 1;
+        }
+
+        last = last -> next;
+        runner++;
+
+        
+    }
+    
+    return 0;
+
+}
+
+
 
 
 
@@ -142,6 +227,8 @@ void printList(Node *node)
     }  
 }  
   
+
+
 int main(){
 
     Node* head = NULL;
@@ -167,7 +254,8 @@ int main(){
 
     for(int runner = 0; runner < number; runner++){
 
-        appendWithMarker(&head,rand() % 100,marker);
+        //appendWithMarker(&head,rand() % 100,marker);
+        append(&head,rand() % 100);
 
     }
 
@@ -177,6 +265,8 @@ int main(){
     cout << endl;
     cout << endl;
 
+    //cout << "Testing with the insert " << 
+    //changeAtMarker(&head,100,marker);
     insertAtMarker(&head,100,marker);
 
     cout << endl;
