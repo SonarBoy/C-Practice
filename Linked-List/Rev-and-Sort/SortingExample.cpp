@@ -41,6 +41,7 @@ struct Node *getTail(struct Node *cur)
 
 
 
+//https://www.youtube.com/watch?v=Hoixgm4-P4M
 
 struct Node *partition(struct Node *head,struct Node *end, struct Node **newHead, struct Node **newEnd)
 {
