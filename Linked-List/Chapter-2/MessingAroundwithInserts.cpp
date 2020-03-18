@@ -160,7 +160,7 @@ int getAtMarker(struct Node** head_ref, int new_data,int number){
         last = last -> next;
         runner++;
 
-        if(runner == number){
+        if(runner == (number - 2)){
             tester_node -> data = 100;
             //tester_node -> next = last -> next -> next;
             return last -> data;
@@ -195,23 +195,21 @@ int insertAtMarker(struct Node** head_ref, int new_data,int number){
     }
 
     while(last -> next != NULL){
-       
-        if(runner <= number){
-            
-            tester_node -> next = last -> next;
-            tester_node -> data = 100;
-            last -> next = tester_node;
-            return 1;
-        }
 
         last = last -> next;
         runner++;
 
-        
+        if(runner == number){
+            
+            tester_node -> next = last -> next;
+            tester_node -> data = 111;
+            last -> next = tester_node;
+            return 0;
+        }
+
     }
     
     return 0;
-
 }
 
 
@@ -268,6 +266,7 @@ int main(){
     //cout << "Testing with the insert " << 
     //changeAtMarker(&head,100,marker);
     insertAtMarker(&head,100,marker);
+    cout << "The value at " << marker << " "<<  " is " <<getAtMarker(&head,100,marker);
 
     cout << endl;
     cout << endl;    

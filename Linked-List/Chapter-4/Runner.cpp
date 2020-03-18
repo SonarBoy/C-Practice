@@ -59,9 +59,42 @@ void deleteNode(struct Node **head_ref, int position)
     //the head value point to the nodes after the deleteion.
     //temp -> next -> next;
     temp -> next = nextItem;
-
-
 }
+
+void append(struct Node** head_ref, int new_data)
+{
+    //Allocate the new Node
+    struct Node *new_node = (struct Node*) malloc(sizeof(struct Node));
+
+    //Used in the later step to determine if 
+    //its going to be the last node.
+    struct Node *last = *head_ref; 
+
+    //Assign data to the new node.
+    new_node -> data = new_data;
+
+    //Assing the next value of the node in this case its null
+    //because we are appending to the list.
+    new_node -> next = NULL;
+
+    //If the linkedlist is empty then make the new node as the head.
+    if(*head_ref == NULL)
+    {  
+        *head_ref = new_node;
+        return;
+    }
+
+
+    //This loop cycles through to find the last value.
+    while(last -> next != NULL){
+        last = last->next;
+    }   
+
+    //Assign the last value to the new node
+    last -> next = new_node;
+    return;
+}
+
 
 void printList(struct Node *node) 
 { 
