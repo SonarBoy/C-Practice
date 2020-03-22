@@ -1,0 +1,100 @@
+Queue Notes:
+
+- The order of operations on a queue is First In First Out or (FIFO)
+- The customer that came first is the customer that is going to be served.
+
+Basic Operations of a Queue:
+
+Enqueue: Adds an item to the queue. If the Queue is full then it
+hits an overflow condition.
+
+Dequeue: Removes an item from the queue. The items are popped in 
+the same order in which they are pushed. If the queue is empty, then 
+it is said to be an Underflow condition. 
+
+Front: Gets the front item from queue.
+
+Read: Gets the last item from queue.
+
+
+Applications of Queue Data Structures:
+
+Queue is used when things dont hace to be processed immediately,
+but have to be processed in First In First Out. 
+
+Made useful in the following Scenarios:
+
+    1) When a resource is shared among multiple consumers.
+    Examples include CPU scheduling, Disk Scheduling.
+
+    2)When data is transferred asynchronously(data not necessarily 
+    recieved at same rate as sent) between two processes.
+
+
+Applications of Priority Queue
+
+A priority Queue is different from a normal queue, because instead
+of being a "first in first out" values come out in order by priority. 
+
+Its an abstract data type that capturesthe idea of a container whose elements
+have "Priorities " attached to them. An element of highest priority always appears
+at the front of the queue. If that element is removed the next highest priority element
+advances to the front.
+
+Dijkstra's Shortest Path Algorithm:
+    - when the graph is stored as a matrix priority queue can be used to extract 
+      minimun efficiently when implementing Dijkstra's Algorithm.
+
+A* Search Algorithm: 
+    - the A* search algorithm finds the shortest path between two 
+    vertices of a weighted graph, trying out the most promising routes first.
+
+
+
+
+Deque (Intro and Applications)
+
+- Deque or Double Ended Queue is a generalized  version of 
+Queue data structures that allows inserts and delete at both 
+ends.
+
+    Operations on Deque:
+    - Mainly the following four basic operations are performed on queue:
+
+    insertFront(): Adds an item at the front of the Deque.
+    insertLast(): Adds an item at the read of Deque.
+    deleteFront(): Deletes an item from front of Deque.
+    deleteLast(): Deletes an item from read of Deque. 
+
+
+    The following operations are also supported.
+
+    getFront():
+    getRead():
+    isEmpty():
+    isFull():
+
+Since Deque supports both stack and queue operations,
+it can be used as both. The Deque data structure supports 
+clockwise and anticlockwise rotations in O(1) time which can be useful.
+
+
+
+LRU CACHE
+
+In computing, cache algorithms (also frequently called cache replacement algorithms 
+or cache replacement policies) are optimizing instructions, or algorithms, that a computer 
+program or a hardware-maintained structure can utilize in order to manage a cache of 
+information stored on the computer. Caching improves performance by keeping recent or 
+often-used data items in memory locations that are faster or computationally cheaper to 
+access than normal memory stores. When the cache is full, the algorithm must choose which 
+items to discard to make room for the new ones. 
+
+We use two data structures to implement an LRU Cache.
+
+    Queue which is implemented using a doubly linked list. The maximum size of the queue 
+    will be equal to the total number of frames available (cache size). The most recently 
+    used pages will be near front end and least recently pages will be near the rear end.
+    
+    A Hash with page number as key and address of the corresponding queue node as value.
+
