@@ -169,19 +169,20 @@ int main(){
 
     ks.enqueue(0, 0);
 	ks.enqueue(0, 1);
-    ks.enqueue(2, 1);
 	ks.enqueue(0, 2);
 	ks.enqueue(0, 3);
 
-
-
-    for(int runner = 0; runner < numberOfQueues ;runner++){
-		for(int innerRunner = 0; innerRunner < numberOfSpaces ;innerRunner++){
-			cout << "Dequeued element from queue "<< runner<<  "  is " << ks.dequeue(innerRunner) << endl;
+    
+    
+		for(int innerRunner = 0; innerRunner < numberOfSpaces  ;innerRunner++){
+			cout << "Dequeued element from queue "<< innerRunner <<  "  is " << ks.dequeue(innerRunner) << endl;
 		}
 
-		cout << endl;
-	}
+    
+
+    
+
+
 
 
 
