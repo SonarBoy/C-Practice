@@ -6,6 +6,66 @@ using namespace std;
 vector<string> split_string(string);
 
 // Complete the largestPermutation function below.
+//! STILL BROKEN!
+vector<int> largestPermutation(int numberOfSwaps, vector<int> inputArray) {
+  vector<int> largestNumbers = inputArray;
+
+  int computerlength = inputArray.size() - 1;
+  int humanLength = inputArray.size();
+
+  int counter = 0;
+  int holder = 0;
+
+  
+  sort(largestNumbers.begin(), largestNumbers.end());
+
+  // IF THE NUMBER OF SWAPS IS GREATER THAN THE ARRAY JUST SORT THE ARRAY AND
+  // RETURN THE VALUE.
+  if (numberOfSwaps > humanLength) {
+    vector<int> out;
+
+    for (int runner = computerlength; runner >= 0; runner--) {
+      out.push_back(largestNumbers[runner]);
+    }
+
+    return out;
+  }
+
+
+  for (int outerRunner = 0; outerRunner <= numberOfSwaps - 1; outerRunner++) {
+
+    for (int runner = 0; runner <= humanLength; runner++) {
+
+      if (inputArray[runner] == largestNumbers[computerlength]) {
+
+        cout << "Switching From <- with Value: " << inputArray[outerRunner]
+             << " Position: " << outerRunner << endl;
+        cout << "Switching To -> with Value: " << inputArray[runner]
+             << " Position: " << runner << endl;
+
+        // Testing A litte messed up but lets try it.
+
+        holder = inputArray[outerRunner];
+        inputArray[outerRunner] = inputArray[runner];
+        inputArray[runner] = holder;
+
+        cout << "Array Runner: " << runner << endl;
+        cout << "Outer Runner: " << outerRunner << endl;
+
+
+        cout << holder << endl;
+        cout << inputArray[runner] << endl;
+        cout << inputArray[outerRunner] << endl;
+      }
+    }
+
+    computerlength--;
+  }
+
+  return inputArray;
+}
+
+
 //!BROKEN!
 vector<int> largestPermutation(int k, vector<int> arr) {
     vector<int> largestNumbers = arr;
